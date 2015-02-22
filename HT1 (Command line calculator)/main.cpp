@@ -24,6 +24,12 @@ public:
 
 };
 
+class DivideByZero : public exception{
+public:
+    virtual const char* what()const throw(){return "Dividing by zero";}
+
+};
+
 struct element {
     int value;
     enum ElementType{Number, Plus, Minus, Division, TakeRest,
@@ -132,7 +138,11 @@ int calculate(queue<element> &elements){
                 tmpStack.push(left - right);
                 break;
             case element::Division:
-                tmpStack.push(left / right);
+                if (right != 0){
+                    tmpStack.push(left / right);
+                }else{
+                    throw DivideByZero();
+                }
                 break;
             case element::Multipication:
                 tmpStack.push(left * right);
