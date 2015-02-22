@@ -71,7 +71,10 @@ int main()
 element parseElement(string str){
     element tmp;
     try{
-        tmp.value = stoi(str);
+        size_t *pos = new size_t;
+        tmp.value = stoi(str, pos);
+        if (*pos != str.length())
+            throw InvalidArgument(str);
         tmp.type = element::Number;
         return tmp;
     }
