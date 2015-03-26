@@ -2,6 +2,7 @@
 #define SETTINGS_H
 #include <iostream>
 #include <exception>
+#include <stdexcept>
 #include <string>
 #include <fstream>
 #include <map>
