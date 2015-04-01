@@ -1,11 +1,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include <iostream>
 #include <exception>
+#include <fstream>
+#include <iostream>
+#include <map>
 #include <stdexcept>
 #include <string>
-#include <fstream>
-#include <map>
 
 class EmptyProperty  : public std::exception{
 public:
@@ -28,32 +28,166 @@ class settings {
                 bool isEmpty;
                 settings *owner;
             public:
+                /**
+                 * Cast value to std::string
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 */
                 operator std::string() const;
+
+                /**
+                 * Cast value to int
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 */
                 operator int() const;
+
+                /**
+                 * Cast value to bool
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 */
                 operator bool() const;
+
+                /**
+                 * Cast value to double
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 */
                 operator double() const;
 
+                /**
+                 * Assigns the given std::string to this value and returns a reference to this value.
+                 * @return reference to this
+                 */
                 param & operator=(std::string const &);
+
+                /**
+                 * Assigns the given char* to this value and returns a reference to this value.
+                 * @return reference to this
+                 */
                 param & operator=(const char*);
+
+                /**
+                 * Assigns the given int to this value and returns a reference to this value.
+                 * @return reference to this
+                 */
                 param & operator=(int);
+
+                /**
+                 * Assigns the given bool to this value and returns a reference to this value.
+                 * @return reference to this
+                 */
                 param & operator=(bool);
+
+                /**
+                 * Assigns the given double to this value and returns a reference to this value.
+                 * @return reference to this
+                 */
                 param & operator=(double);
 
+
+                /**
+                 * Appends the std::string onto the end of this value and returns a reference to this value.
+                 * @throw EmptyProperty
+                 * @return reference to this
+                 */
                 param & operator+=(std::string const &);
+
+                /**
+                 * Appends the char* onto the end of this value and returns a reference to this value.
+                 * @throw EmptyProperty
+                 * @return reference to this
+                 */
+                param & operator+=(const char*);
+
+                /**
+                 * Adds int to this value if this value can be casted to int.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator+=(int);
+
+                /**
+                 * Adds double to this value if this value can be casted to double.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator+=(double);
 
+
+                /**
+                 * Subtracts int of this value if this value can be casted to int.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator-=(int);
+
+                /**
+                 * Subtracts double of this value if this value can be casted to double.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator-=(double);
 
+
+                /**
+                 * Multiplies int by this value if this value can be casted to int.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator*=(int);
+
+                /**
+                 * Multiplies double of this value if this value can be casted to double.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator*=(double);
 
+
+                /**
+                 * Divides this value by int if this value can be casted to int.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator/=(int);
+
+                /**
+                 * Divides this value by double if this value can be casted to double.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator/=(double);
 
+
+                /**
+                 * Assigns given value and this value if this value can be casted to bool.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator|=(bool);
+
+                /**
+                 * Assigns given value or this value if this value can be casted to bool.
+                 * @throw EmptyProperty
+                 * @throw std::invalid_argument
+                 * @return reference to this
+                 */
                 param & operator&=(bool);
+
+                /**
+                 * Returns false if this property is empty otherwise returns true.
+                 */
                 bool is_empty() const;
         };
 

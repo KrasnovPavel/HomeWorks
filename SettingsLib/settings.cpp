@@ -1,5 +1,4 @@
 #include "settings.h"
-#include <fstream>
 
 //settings::param::param()
 //{
@@ -98,6 +97,16 @@ settings::param &settings::param::operator+=(const std::string &newValue)
     if (isEmpty)
         throw EmptyProperty(name);
     value += newValue;
+    owner->sync(name, value);
+    return *this;
+}
+
+settings::param &settings::param::operator+=(const char * newValue)
+{
+
+    if (isEmpty)
+        throw EmptyProperty(name);
+    value += std::string(newValue);
     owner->sync(name, value);
     return *this;
 }
