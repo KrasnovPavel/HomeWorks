@@ -6,7 +6,7 @@
 
 QT       -= core gui
 
-TARGET = Settings
+TARGET = settings
 TEMPLATE = lib
 
 DEFINES += SETTINGS_LIBRARY
