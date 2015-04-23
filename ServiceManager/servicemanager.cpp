@@ -9,7 +9,7 @@ service_manager::service_manager(const std::shared_ptr<settings> &my_settings)
     try {
         int num = m_settings->operator [](std::string("num_treads"));
         set_num_threads(num);
-    } catch (EmptyProperty *e) {
+    } catch (EmptyProperty e) {
         int num = std::thread::hardware_concurrency();
         if (num == 0){
             set_num_threads(4);
