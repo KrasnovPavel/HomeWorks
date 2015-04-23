@@ -1,5 +1,5 @@
-#ifndef SERVICEMANANGER_H
-#define SERVICEMANANGER_H
+#ifndef SERVICEMANAGER_H
+#define SERVICEMANAGER_H
 
 #include <memory>
 #include <thread>

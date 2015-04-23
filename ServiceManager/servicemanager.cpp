@@ -1,4 +1,4 @@
-#include "servicemananger.h"
+#include "servicemanager.h"
 
 
 service_manager::service_manager(const std::shared_ptr<settings> &my_settings)

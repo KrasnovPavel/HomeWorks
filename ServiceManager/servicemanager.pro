@@ -6,14 +6,14 @@
 
 QT       -= core gui
 
-TARGET = servicemananger
+TARGET = servicemanager
 TEMPLATE = lib
 
-DEFINES += SERVICE_MANANGER_LIBRARY
+DEFINES += SERVICE_MANAGER_LIBRARY
 
-SOURCES += servicemananger.cpp
+SOURCES += servicemanager.cpp
 
-HEADERS += servicemananger.h
+HEADERS += servicemanager.h
 
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -24,7 +24,7 @@ unix {
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../SettingsLib/libsettings.so -lsettings
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../SettingsLib/libsettings.so -lsettings
-else:unix: LIBS += -L$$PWD/../SettingsLib/libsettings.so -lsettings
+else:unix: LIBS += -L$$PWD/../SettingsLib/libsettings.so
 
 INCLUDEPATH += $$PWD/../SettingsLib
 DEPENDPATH += $$PWD/../SettingsLib
