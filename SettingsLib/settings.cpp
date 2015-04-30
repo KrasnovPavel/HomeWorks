@@ -1,13 +1,5 @@
 #include "settings.h"
 
-//settings::param::param()
-//{
-//    owner = 0;
-//    value = "";
-//    //name = "";
-//    isEmpty = true;
-//}
-
 settings::param::param(const std::string & name, std::string value, settings *owner, bool empty)
 {
     this->value = value;
@@ -25,9 +17,17 @@ settings::param::operator std::string() const
 
 settings::param::operator int() const
 {
-    if (isEmpty)
+    if (isEmpty){
         throw EmptyProperty(name);
-    return std::stoi(value);
+    }
+    size_t *pos = new size_t;
+    int tmp = stoi(value, pos);
+    size_t *posd = new size_t;
+    double tmpd = stod(value, posd);
+    if (*pos != value.length() && *posd != value.length()){
+        throw std::invalid_argument(value);
+    }
+    return tmp;
 }
 
 settings::param::operator bool() const
@@ -35,9 +35,9 @@ settings::param::operator bool() const
     if (isEmpty)
         throw EmptyProperty(name);
     bool result;
-    if (value == "true")
+    if (value == "true" || value == "1")
         result = true;
-    else if (value == "false")
+    else if (value == "false" || value == "0")
         result = false;
     else
         throw std::invalid_argument(value);
@@ -48,7 +48,11 @@ settings::param::operator double() const
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    return std::stod(value);
+    size_t *pos = new size_t;
+    double tmp = stod(value, pos);
+    if (*pos != value.length())
+        throw std::invalid_argument(value);
+    return tmp;
 }
 
 settings::param &settings::param::operator=(const std::string &newValue)
@@ -77,7 +81,6 @@ settings::param &settings::param::operator=(int newValue)
 
 settings::param &settings::param::operator=(bool newValue)
 {
-    std::cout << newValue << " from settings.cpp" << std::endl;
     value = newValue?"true":"false";
     isEmpty = false;
     owner->sync(name, value);
@@ -115,7 +118,7 @@ settings::param &settings::param::operator+=(int newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stoi(value) + newValue);
+    value = std::to_string(this->operator int() + newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -124,7 +127,7 @@ settings::param &settings::param::operator+=(double newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stod(value) + newValue);
+    value = std::to_string(this->operator double() + newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -133,7 +136,7 @@ settings::param &settings::param::operator-=(int newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stoi(value) - newValue);
+    value = std::to_string(this->operator int() - newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -142,7 +145,7 @@ settings::param &settings::param::operator-=(double newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stod(value) - newValue);
+    value = std::to_string(this->operator double() - newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -151,7 +154,7 @@ settings::param &settings::param::operator*=(int newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stoi(value) * newValue);
+    value = std::to_string(this->operator int() * newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -160,7 +163,7 @@ settings::param &settings::param::operator*=(double newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stod(value) * newValue);
+    value = std::to_string(this->operator double() * newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -169,7 +172,7 @@ settings::param &settings::param::operator/=(int newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stoi(value) / newValue);
+    value = std::to_string(this->operator int() / newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -178,7 +181,7 @@ settings::param &settings::param::operator/=(double newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    value = std::to_string(stoi(value) / newValue);
+    value = std::to_string(this->operator double() / newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -187,10 +190,7 @@ settings::param &settings::param::operator|=(bool newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    if (value != "false" && value != "true")
-        throw std::invalid_argument(name +": "+ value);
-    else if (newValue == true)
-        value = "true";
+    value = std::to_string(this->operator bool() || newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -199,12 +199,7 @@ settings::param &settings::param::operator&=(bool newValue)
 {
     if (isEmpty)
         throw EmptyProperty(name);
-    if (value == "true" && newValue == true)
-        value = "true";
-    else if (value == "false" || value == "true")
-        value = "false";
-    else
-        throw std::invalid_argument(name +": "+ value);
+    value = std::to_string(this->operator bool() && newValue);
     owner->sync(name, value);
     return *this;
 }
@@ -302,3 +297,17 @@ void settings::sync(std::string & name, std::string & value)
     list[name] = value;
     sync();
 }
+
+
+//bool settings::param::operator==(settings::param left, settings::param::T right)
+//{
+//    T tmp = left;
+//    return tmp == right;
+//}
+
+
+//bool settings::param::operator==(settings::param::T left, settings::param right)
+//{
+//    T tmp = right;
+//    return tmp == left;
+//}

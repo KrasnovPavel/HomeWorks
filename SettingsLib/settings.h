@@ -244,6 +244,4 @@ private:
         std::string filename;
         std::map<std::string, std::string> list;
 };
-
-
 #endif // SETTINGS_H
