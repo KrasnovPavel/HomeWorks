@@ -427,13 +427,13 @@ void UnitTest::checkOperatorsString()
 
 
     QCOMPARE((std::string)(*test)["first"], std::string("value1~@345434EDS"));
-    QVERIFY_EXCEPTION_THROWN(int y = (*test)["forth"];, EmptyProperty);
+    QVERIFY_EXCEPTION_THROWN(std::string y = (*test)["forth"], EmptyProperty);
 
     QCOMPARE(std::string((*test)["first"] += "gdyhsvkjhfvsghdvs129361874#$%$@"),
              std::string("value1~@345434EDSgdyhsvkjhfvsghdvs129361874#$%$@"));
 
 
-    QVERIFY_EXCEPTION_THROWN((*test)["forth"] += "true";, EmptyProperty);
+    QVERIFY_EXCEPTION_THROWN((*test)["forth"] += "true", EmptyProperty);
 
     test->reset();
     delete test;
